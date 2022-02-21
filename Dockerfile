@@ -1,13 +1,10 @@
 ####################################################
 # GOLANG BUILDER
 ####################################################
-FROM golang:1.15 as go_builder
+FROM golang:1.11 as go_builder
 
 COPY . /go/src/github.com/malice-plugins/comodo
 WORKDIR /go/src/github.com/malice-plugins/comodo
-# RUN go mod init
-# RUN go mod tidy
-# RUN go mod vendor
 RUN go get -u github.com/golang/dep/cmd/dep && dep ensure
 RUN go build -ldflags "-s -w -X main.Version=v$(cat VERSION) -X main.BuildTime=$(date -u +%Y%m%d)" -o /bin/avscan
 
@@ -29,12 +26,6 @@ RUN groupadd -r malice \
   && useradd --no-log-init -r -g malice malice \
   && mkdir /malware \
   && chown -R malice:malice /malware
-
-RUN echo \
-   'deb ftp://ftp.us.debian.org/debian/ jessie main\n \
-    deb ftp://ftp.us.debian.org/debian/ jessie-updates main\n \
-    deb http://security.debian.org jessie/updates main\n' \
-    > /etc/apt/sources.list
 
 RUN buildDeps='ca-certificates \
   build-essential \
