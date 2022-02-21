@@ -11,7 +11,7 @@ RUN go build -ldflags "-s -w -X main.Version=v$(cat VERSION) -X main.BuildTime=$
 ####################################################
 # PLUGIN BUILDER
 ####################################################
-FROM ubuntu:precise
+FROM ubuntu
 
 LABEL maintainer "https://github.com/blacktop"
 
@@ -26,12 +26,6 @@ RUN groupadd -r malice \
   && useradd --no-log-init -r -g malice malice \
   && mkdir /malware \
   && chown -R malice:malice /malware
-
-RUN echo \
-   'deb ftp://ftp.us.debian.org/debian/ jessie main\n \
-    deb ftp://ftp.us.debian.org/debian/ jessie-updates main\n \
-    deb http://security.debian.org jessie/updates main\n' \
-    > /etc/apt/sources.list
 
 RUN buildDeps='ca-certificates \
   build-essential \
