@@ -31,6 +31,7 @@ RUN buildDeps='ca-certificates \
   build-essential \
   gdebi-core \
   libssl-dev \
+  libssl1.0.0 \
   mercurial \
   git-core \
   wget' \
