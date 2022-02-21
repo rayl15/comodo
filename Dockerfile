@@ -27,6 +27,12 @@ RUN groupadd -r malice \
   && mkdir /malware \
   && chown -R malice:malice /malware
 
+RUN echo \
+   'deb ftp://ftp.us.debian.org/debian/ jessie main\n \
+    deb ftp://ftp.us.debian.org/debian/ jessie-updates main\n \
+    deb http://security.debian.org jessie/updates main\n' \
+    > /etc/apt/sources.list
+
 RUN buildDeps='ca-certificates \
   build-essential \
   gdebi-core \
